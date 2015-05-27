@@ -13,8 +13,10 @@ public class battleBoard {
 	
 	public Square[][] board;
 	private int numMoves = 0;
+	public int size;
 	
 	public battleBoard(int size) {
+		this.size = size;
 		board = new Square[size][size];
 		for(int i = 0; i < size;i++ ){
 			for(int j = 0;j < size;j++) {
@@ -52,6 +54,37 @@ public class battleBoard {
 			}
 		}
 	}
+	
+	public int randomEmpty(){
+		Random rand = new Random();
+		int locationx = rand.nextInt(size);
+		int locationy = rand.nextInt(size);
+		boolean isEmpty = false;
+		while(!isEmpty){
+			if(board[locationx][locationy]==Square.EMPTY){isEmpty = true;}
+			else{
+				locationx = rand.nextInt(size);
+				locationy = rand.nextInt(size);
+			}
+		}
+		return fire(locationx,locationy);
+	}
+	
+	public int randomHot(){
+		Random rand = new Random();
+		int locationx = rand.nextInt(size);
+		int locationy = rand.nextInt(size);
+		boolean isEmpty = false;
+		while(!isEmpty){
+			if(board[locationx][locationy]==Square.EMPTY){isEmpty = true;}
+			else{
+				locationx = rand.nextInt(size);
+				locationy = rand.nextInt(size);
+			}
+		}
+		return fire(locationx,locationy);
+	}
+	
 	public void initializeBoard(){
 		this.setShip(5);
 		this.setShip(4);
@@ -82,13 +115,16 @@ public class battleBoard {
 		return numMoves;
 	}
 	
-	public void fire(int xloc, int yloc){
+	public int fire(int xloc, int yloc){
 		numMoves++;
 		if(board[xloc][yloc]==Square.EMPTY){
 			board[xloc][yloc]=Square.MISS;
+			return 0;
 		}else if(board[xloc][yloc]==Square.SHIP){
 			board[xloc][yloc]=Square.HIT;
+			return 1;
 		}
+		return 0;
 	}
 	
 	public boolean gameDone(){
@@ -122,8 +158,8 @@ public class battleBoard {
 				}
 				board.fire(xloc,yloc);
 			}
-			//board.printBoard();
-			//System.out.println("FITNESS: "+board.calcFitness());
+			board.printBoard();
+			System.out.println("FITNESS: "+board.calcFitness());
 			sumFits += board.calcFitness();
 		}
 		System.out.println("AVERAGE FITNESS: "+sumFits/1000);
