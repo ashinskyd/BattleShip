@@ -53,14 +53,14 @@ public class TartGP extends GP {
         for (int k=0; k<tcfg.NumTestGrids; k++) {
             //create new random grid
             tcfg.createGrid();
-            
+            int moves = 0;
             //evaluate main tree for 80 steps of the dozer
-            while (!tcfg.board.gameDone()) {
+            while (!tcfg.board.gameDone()&& moves<100) {
                 int result = ((TartGene)get(0)).evaluate(tcfg, this);
-                if (result==0) tcfg.board.left();
-                else if (result==1) tcfg.board.right();
-                else if (result==2) tcfg.board.forward();
-                else System.out.println("ERROR, result not 1, 2, or 3 but instead "+result);
+               
+                moves++;
+                tcfg.board.fire(result/10,result%10);
+                //else System.out.println("ERROR, result not 1, 2, or 3 but instead "+result);
             }
             totFit += tcfg.board.calcFitness();
         }
@@ -102,12 +102,10 @@ public class TartGP extends GP {
             os.println("DOZER BEHAVIOR ON TEST GRID "+j);
             os.println("---------------------------------");
             //evaluate main tree for 80 steps of the dozer, printing grid after each move
-            for (int i=0; i<tcfg.NumSteps; i++) {
+            while(!tcfg.board.gameDone()) {
                 int result = ((TartGene)get(0)).evaluate(tcfg, this);
-                if (result==0) tcfg.board.left();
-                else if (result==1) tcfg.board.right();
-                else if (result==2) tcfg.board.forward();
-                tcfg.board.print(os);
+                tcfg.board.fire(result/10,result%10);
+                tcfg.board.printBoard();
             }
             int curGridFit = tcfg.board.calcFitness();
             totFit += curGridFit;

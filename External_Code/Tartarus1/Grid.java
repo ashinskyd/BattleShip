@@ -5,25 +5,17 @@ import java.io.*;
 public class Grid {
 
     //functions and terminals
-    public final static int ZERO = 0;
-    public final static int ONE = 1; 
-    public final static int TWO = 2; 
-    public final static int RE = 3;  
-    public final static int RH = 4;
-    public final static int LR = 5;  
-    public final static int UM = 6;  
-    public final static int LM = 7;  
-    public final static int UL = 8;   
-    public final static int ML = 9;   
-    public final static int LL = 10;  
-    public final static int INC = 11;  
-    public final static int DEC = 12;  
-    public final static int ADD = 13;  
-    public final static int SUB = 14;  
-    public final static int MAX = 15;  
-    public final static int MIN = 16;  
-    public final static int ITE = 17;
-    public final static int CUS = 18;
+    public final static int EMPTY = 0;
+    public final static int MISS = 1; 
+    public final static int HIT = 2; 
+    public final static int RE = 3; 
+    public final static int INC = 4;  
+    public final static int DEC = 5;  
+    public final static int ADD = 6;  
+    public final static int SUB = 7;  
+    public final static int MAX = 8;  
+    public final static int MIN = 9;  
+    
 
 
     // grid private vars

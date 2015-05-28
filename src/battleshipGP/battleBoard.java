@@ -61,13 +61,13 @@ public class battleBoard {
 		int locationy = rand.nextInt(size);
 		boolean isEmpty = false;
 		while(!isEmpty){
-			if(board[locationx][locationy]==Square.EMPTY){isEmpty = true;}
+			if(board[locationx][locationy]!=Square.MISS && board[locationx][locationy]!=Square.HIT ){isEmpty = true;}
 			else{
 				locationx = rand.nextInt(size);
 				locationy = rand.nextInt(size);
 			}
 		}
-		return fire(locationx,locationy);
+		return locationx*10+locationy;
 	}
 	
 	public int randomHot(){
@@ -119,10 +119,10 @@ public class battleBoard {
 		numMoves++;
 		if(board[xloc][yloc]==Square.EMPTY){
 			board[xloc][yloc]=Square.MISS;
-			return 0;
+			return 1;
 		}else if(board[xloc][yloc]==Square.SHIP){
 			board[xloc][yloc]=Square.HIT;
-			return 1;
+			return 2;
 		}
 		return 0;
 	}

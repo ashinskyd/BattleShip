@@ -18,7 +18,9 @@ package Tartarus1;
 
 import java.awt.Point;
 import java.io.*;
+
 import gpjpp.*;
+
 import java.util.Random;
 
 //extend GPGene to evaluate Tartarus
@@ -47,14 +49,13 @@ public class TartGene extends GPGene {
         Random rand = new Random();
         int arg1, arg2, arg3, result;
         switch (node.value()) {
-            
-        case Grid.ZERO:
+        case Grid.EMPTY:
             return 0;
             
-        case Grid.ONE: 
+        case Grid.MISS: 
             return 1;
             
-        case Grid.TWO: 
+        case Grid.HIT: 
             return 2;
             
         case Grid.RE:
@@ -62,47 +63,39 @@ public class TartGene extends GPGene {
 
         //case Grid.RH:
             //return cfg.dozerGrid.sensor(0, -1);
-        
-        case Grid.CUS:
-                return rand.nextInt(3);
-                
+           
         case Grid.INC:
-            return ( ( (TartGene)get(0) ).evaluate(cfg, gp) + 1) % 2;
+            return (( ( (TartGene)get(0) ).evaluate(cfg, gp) + 1) % 100+100)%100;
 
         case Grid.DEC:
-            result = ( (TartGene)get(0) ).evaluate(cfg, gp) - 1;  
-            if (result<0) result = 2;
-            return result % 2;
-
+            result = ( (TartGene)get(0) ).evaluate(cfg, gp) - 1;
+            result = (result%100 + 100)%100;
+            return result;
+            
         case Grid.ADD:
             result = ( (TartGene)get(0) ).evaluate(cfg, gp) + ( (TartGene)get(1) ).evaluate(cfg, gp);
-            if (result<0) result = 2;
-            return result % 2;
+            result = (result%100 + 100)%100;
+            return result;
 
         case Grid.SUB:
             result = ( (TartGene)get(0) ).evaluate(cfg, gp) - ( (TartGene)get(1) ).evaluate(cfg, gp);
-            if (result<0) result = 2;
-            return result % 2;
-
+            result = (result%100 + 100)%100;
+            return result;
         case Grid.MAX:
             arg1 = ( (TartGene)get(0) ).evaluate(cfg, gp);
             arg2 = ( (TartGene)get(1) ).evaluate(cfg, gp);
-            if (arg1 > arg2) return arg1;
-            else return arg2;
-
+           
+            if (arg1 > arg2) result = (arg1%100 + 100)%100;
+            else result = (arg2%100 + 100)%100;
+            return result;
+            
         case Grid.MIN:
             arg1 = ( (TartGene)get(0) ).evaluate(cfg, gp);
             arg2 = ( (TartGene)get(1) ).evaluate(cfg, gp);
-            if (arg1 < arg2) return arg1;
-            else return arg2;
-
-        case Grid.ITE:
-            arg1 = ( (TartGene)get(0) ).evaluate(cfg, gp);
-            arg2 = ( (TartGene)get(1) ).evaluate(cfg, gp);
-            arg3 = ( (TartGene)get(2) ).evaluate(cfg, gp);
-            if (arg1 == 0) return arg3;
-            else return arg2;
-                
+           
+            if (arg1 < arg2) result = (arg1%100 + 100)%100;
+            else result = (arg2%100 + 100)%100;
+            return result;
 
         default:
             throw new RuntimeException("Undefined function type "+node.value());

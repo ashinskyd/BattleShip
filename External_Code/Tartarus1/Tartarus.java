@@ -33,29 +33,22 @@ class Tartarus extends GPRun {
     //  initialized set of functions & terminals
     protected GPAdfNodeSet createNodeSet(GPVariables cfg) {
         GPAdfNodeSet adfNs = new GPAdfNodeSet(1);
-        GPNodeSet ns0 = new GPNodeSet(19);
-        adfNs.put(0, ns0);
+        GPNodeSet ns0 = new GPNodeSet(10);
+        
 
         //MAIN TREE
-        ns0.putNode(new GPNode(Grid.ZERO, "zero"));
-        ns0.putNode(new GPNode(Grid.ONE, "one"));
-        ns0.putNode(new GPNode(Grid.TWO, "two"));
-        ns0.putNode(new GPNode(Grid.UM, "um"));
-        ns0.putNode(new GPNode(Grid.UL, "ul"));
-        ns0.putNode(new GPNode(Grid.ML, "ml"));
-        ns0.putNode(new GPNode(Grid.LR, "lr"));
-        ns0.putNode(new GPNode(Grid.LM, "lm"));
-        ns0.putNode(new GPNode(Grid.LL, "ll"));
+        ns0.putNode(new GPNode(Grid.EMPTY, "inc"));
+        ns0.putNode(new GPNode(Grid.MISS, "inc"));
+        ns0.putNode(new GPNode(Grid.HIT, "inc"));
         ns0.putNode(new GPNode(Grid.INC, "inc", 1));
         ns0.putNode(new GPNode(Grid.DEC, "dec", 1));
         ns0.putNode(new GPNode(Grid.ADD, "add", 2));
         ns0.putNode(new GPNode(Grid.SUB, "sub", 2));
         ns0.putNode(new GPNode(Grid.MAX, "max", 2));
         ns0.putNode(new GPNode(Grid.MIN, "min", 2));
-        ns0.putNode(new GPNode(Grid.ITE, "ite", 3));
-        ns0.putNode(new GPNode(Grid.CUS, "cus", 0));
+        ns0.putNode(new GPNode(Grid.RE, "re", 3));
         
-         
+        adfNs.put(0, ns0);
         return adfNs;
     }
 

@@ -703,6 +703,6 @@ public class GPGenePrint extends GPGene {
         drawGifNode(ods, 0);
 
         //write the image to a file
-        ods.writeGif(fname);
+        ods.writeGif("PRINTED_TREE.gif");
     }
 }

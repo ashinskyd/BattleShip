@@ -502,7 +502,7 @@ public abstract class GPRun {
 
         if (os == null)
             //create new file
-            os = new FileOutputStream(fname);
+            os = new FileOutputStream("NEWFILE.stc");
 
         return new GPPrintStream(
             new BufferedOutputStream(os, outBufSize), true);
