@@ -15,6 +15,7 @@ public class Grid {
     public final static int SUB = 7;  
     public final static int MAX = 8;  
     public final static int MIN = 9;  
+    public final static int RH = 10;  
     
 
 

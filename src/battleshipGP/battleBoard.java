@@ -1,5 +1,6 @@
 package battleshipGP;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 
@@ -14,8 +15,13 @@ public class battleBoard {
 	public Square[][] board;
 	private int numMoves = 0;
 	public int size;
+	private ArrayList<Integer> uncheckedHits;
+	private ArrayList<ArrayList> uncheckedDirs;
+	private boolean anyHits=false;
 	
 	public battleBoard(int size) {
+		uncheckedHits = new ArrayList<Integer>();
+		uncheckedDirs = new ArrayList<ArrayList>();
 		this.size = size;
 		board = new Square[size][size];
 		for(int i = 0; i < size;i++ ){
@@ -71,18 +77,80 @@ public class battleBoard {
 	}
 	
 	public int randomHot(){
-		Random rand = new Random();
-		int locationx = rand.nextInt(size);
-		int locationy = rand.nextInt(size);
-		boolean isEmpty = false;
-		while(!isEmpty){
-			if(board[locationx][locationy]==Square.EMPTY){isEmpty = true;}
-			else{
-				locationx = rand.nextInt(size);
-				locationy = rand.nextInt(size);
-			}
+		if(!anyHits){
+			return randomEmpty();
 		}
-		return fire(locationx,locationy);
+		else{
+			Random rand = new Random();
+			if(uncheckedHits.size()==0){
+				anyHits = false;
+				return randomEmpty();
+			}
+			int randhitIndex = rand.nextInt(uncheckedHits.size());
+			int randhit = uncheckedHits.get(randhitIndex);
+			ArrayList<Integer> validDirs = new ArrayList<Integer>();
+			boolean foundEmpty = false;
+			int up = randhit -10;
+			int down = randhit +10;
+			int left = randhit-1;
+			int right = randhit+1;
+			validDirs.add(up);
+			validDirs.add(down);
+			validDirs.add(left);
+			validDirs.add(right);
+			int x = 0;
+			while(!foundEmpty){
+				if(validDirs.size()==0){
+					uncheckedHits.remove(randhitIndex);
+					return randomHot();
+				}else{
+					int direction = rand.nextInt(validDirs.size());
+					int location = validDirs.get(direction);
+					if(location>=0 && location<=99){
+						//System.out.println("DIRECTION: "+location);
+						if(board[location%10][location/10]!=Square.HIT &&  board[location%10][location/10]!=Square.MISS){
+							return location;
+						}else{
+							validDirs.remove(direction);
+						}
+					}else{
+						validDirs.remove(direction);
+					}
+				}
+			}
+			return randomEmpty();
+		}
+			/*
+			
+			boolean validrand = false;
+			int newloc = 0;
+			int x = 0;
+			while(!validrand){
+				
+				System.out.println("size: "+uncheckedHits.size());
+				
+				int randhit = rand.nextInt(uncheckedHits.size());
+				if (uncheckedDirs.get(randhit).size() == 0){
+					uncheckedHits.remove(randhit);
+					uncheckedDirs.remove(randhit);
+				}if (uncheckedHits.size() == 0){
+					anyHits =false;
+					return randomEmpty();
+				}
+				int dir = rand.nextInt(uncheckedDirs.get(randhit).size());
+				newloc = randhit + (int)uncheckedDirs.get(randhit).get(dir);
+				if(newloc >= 0 && newloc <= 99){
+					if (board[newloc%10][newloc/10] == Square.EMPTY || board[newloc%10][newloc/10] == Square.SHIP){
+						validrand = true;
+					}
+					else{
+						System.out.println("HERE");
+						uncheckedDirs.get(randhit).remove(dir);
+					}
+				}
+
+			}
+		}*/
 	}
 	
 	public void initializeBoard(){
@@ -121,7 +189,20 @@ public class battleBoard {
 			board[xloc][yloc]=Square.MISS;
 			return 1;
 		}else if(board[xloc][yloc]==Square.SHIP){
+			anyHits=true;
 			board[xloc][yloc]=Square.HIT;
+			uncheckedHits.add(xloc*10+yloc);
+			ArrayList<Integer> dirs = new ArrayList<Integer>();
+			int up = -10;
+			dirs.add(up);
+			int down = 10;
+			dirs.add(down);
+			int left = -1;
+			dirs.add(left);
+			int right = 1;
+			dirs.add(right);
+			
+			uncheckedDirs.add(dirs);
 			return 2;
 		}
 		return 0;
@@ -140,7 +221,7 @@ public class battleBoard {
 		return done;
 	}
 	
-	public static void main(String [] args){
+	/*public static void main(String [] args){
 		int sumFits = 0;
 		for (int j=0;j<1000;j++){
 			battleBoard board = new battleBoard(10);
@@ -164,5 +245,5 @@ public class battleBoard {
 		}
 		System.out.println("AVERAGE FITNESS: "+sumFits/1000);
 		
-	}
+	}*/
 }

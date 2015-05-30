@@ -61,8 +61,8 @@ public class TartGene extends GPGene {
         case Grid.RE:
             return cfg.board.randomEmpty();
 
-        //case Grid.RH:
-            //return cfg.dozerGrid.sensor(0, -1);
+        case Grid.RH:
+            return cfg.board.randomHot();
            
         case Grid.INC:
             return (( ( (TartGene)get(0) ).evaluate(cfg, gp) + 1) % 100+100)%100;
