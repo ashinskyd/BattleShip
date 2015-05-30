@@ -57,7 +57,13 @@ public class TartGene extends GPGene {
             
         case Grid.HIT: 
             return 2;
-            
+        
+        case Grid.HV:
+        	return cfg.board.lastHotVertical();
+         
+        case Grid.HH:
+        	return cfg.board.lastHotHorizontal();
+        	
         case Grid.RE:
             return cfg.board.randomEmpty();
 

@@ -47,9 +47,6 @@ public class TartGP extends GP {
     public double evaluate(GPVariables cfg) {
 
         TartVariables tcfg = (TartVariables)cfg;
-        System.out.println("TESTGRIDS: "+tcfg.NumberOfGenerations);
-        System.out.println("TESTGRIDS: "+tcfg.NumTestGrids);
-        
         double totFit = 0;
         // test GP on N random boards
         
@@ -105,8 +102,9 @@ public class TartGP extends GP {
             while(!tcfg.board.gameDone()) {
                 int result = ((TartGene)get(0)).evaluate(tcfg, this);
                 tcfg.board.fire(result/10,result%10);
-                tcfg.board.printBoard();
+                
             }
+            tcfg.board.printBoard();
             int curGridFit = tcfg.board.calcFitness();
             totFit += curGridFit;
             os.println("GRID FITNESS = "+curGridFit);

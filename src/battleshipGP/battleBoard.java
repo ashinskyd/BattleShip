@@ -18,6 +18,7 @@ public class battleBoard {
 	private ArrayList<Integer> uncheckedHits;
 	private ArrayList<ArrayList> uncheckedDirs;
 	private boolean anyHits=false;
+	private int lastHitIndex;
 	
 	public battleBoard(int size) {
 		uncheckedHits = new ArrayList<Integer>();
@@ -76,6 +77,73 @@ public class battleBoard {
 		return locationx*10+locationy;
 	}
 	
+	public int lastHotHorizontal(){
+		if(!anyHits){
+			return randomEmpty();
+		}else{
+			Random rand = new Random();
+			ArrayList<Integer> validDirs = new ArrayList<Integer>();
+			boolean foundEmpty = false;
+			int left = lastHitIndex-1;
+			int right = lastHitIndex+1;
+			validDirs.add(left);
+			validDirs.add(right);
+			while(!foundEmpty){
+				if(validDirs.size()==0){
+					return randomHot();
+				}else{
+					int direction = rand.nextInt(validDirs.size());
+					int location = validDirs.get(direction);
+					if(location>=0 && location<=99){
+						if(board[location/10][location%10]!=Square.HIT &&  board[location/10][location%10]!=Square.MISS){
+							return location;
+						}else{
+							validDirs.remove(direction);
+						}
+					}else{
+						validDirs.remove(direction);
+					}
+				}
+			}
+			return randomHot();
+		}
+	}
+	
+	
+	public int lastHotVertical(){
+		if(!anyHits){
+			return randomEmpty();
+		}else{
+			Random rand = new Random();
+			ArrayList<Integer> validDirs = new ArrayList<Integer>();
+			boolean foundEmpty = false;
+			int up = lastHitIndex-10;
+			int down = lastHitIndex+10;
+			validDirs.add(up);
+			validDirs.add(down);
+			while(!foundEmpty){
+				if(validDirs.size()==0){
+					return randomEmpty();
+				}else{
+					int direction = rand.nextInt(validDirs.size());
+					int location = validDirs.get(direction);
+					if(location>=0 && location<=99){
+						if(board[location/10][location%10]!=Square.HIT &&  board[location/10][location%10]!=Square.MISS){
+							return location;
+						}else{
+							validDirs.remove(direction);
+						}
+					}else{
+						validDirs.remove(direction);
+					}
+				}
+			}
+			return randomEmpty();
+		}
+	}
+	
+	
+	
 	public int randomHot(){
 		if(!anyHits){
 			return randomEmpty();
@@ -98,7 +166,6 @@ public class battleBoard {
 			validDirs.add(down);
 			validDirs.add(left);
 			validDirs.add(right);
-			int x = 0;
 			while(!foundEmpty){
 				if(validDirs.size()==0){
 					uncheckedHits.remove(randhitIndex);
@@ -108,7 +175,7 @@ public class battleBoard {
 					int location = validDirs.get(direction);
 					if(location>=0 && location<=99){
 						//System.out.println("DIRECTION: "+location);
-						if(board[location%10][location/10]!=Square.HIT &&  board[location%10][location/10]!=Square.MISS){
+						if(board[location/10][location%10]!=Square.HIT &&  board[location/10][location%10]!=Square.MISS){
 							return location;
 						}else{
 							validDirs.remove(direction);
@@ -191,6 +258,7 @@ public class battleBoard {
 		}else if(board[xloc][yloc]==Square.SHIP){
 			anyHits=true;
 			board[xloc][yloc]=Square.HIT;
+			lastHitIndex = xloc*10+yloc;
 			uncheckedHits.add(xloc*10+yloc);
 			ArrayList<Integer> dirs = new ArrayList<Integer>();
 			int up = -10;

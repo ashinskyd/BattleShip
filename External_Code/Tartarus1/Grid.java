@@ -16,7 +16,8 @@ public class Grid {
     public final static int MAX = 8;  
     public final static int MIN = 9;  
     public final static int RH = 10;  
-    
+    public final static int HH = 11;  
+    public final static int HV = 12;  
 
 
     // grid private vars
@@ -224,7 +225,7 @@ public class Grid {
         os.println();
     }
     
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         int sum = 0;
         for(int j = 0;j<1000;j++) {
             Grid curGrid = new Grid(6,6,5);
@@ -239,6 +240,6 @@ public class Grid {
         }
         System.out.println("Avg fitness of random:" + (float)sum/1000.0);
         
-    }
+    }*/
 
 }
