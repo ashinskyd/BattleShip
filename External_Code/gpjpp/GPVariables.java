@@ -622,8 +622,13 @@ public class GPVariables extends GPObject {
      */
     public synchronized void load(Properties props) {
 
-        if (props == null)
+        if (props == null){
+            System.out.println("NULL");
             return;
+        }else{
+        	System.out.println("POPSIZE: "+   getInt(props, "PopulationSize", PopulationSize));
+        }
+        
 
         PopulationSize =
             getInt(props, "PopulationSize", PopulationSize);

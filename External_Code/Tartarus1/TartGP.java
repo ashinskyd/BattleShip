@@ -47,17 +47,19 @@ public class TartGP extends GP {
     public double evaluate(GPVariables cfg) {
 
         TartVariables tcfg = (TartVariables)cfg;
-
+        System.out.println("TESTGRIDS: "+tcfg.NumberOfGenerations);
+        System.out.println("TESTGRIDS: "+tcfg.NumTestGrids);
+        
         double totFit = 0;
         // test GP on N random boards
+        
         for (int k=0; k<tcfg.NumTestGrids; k++) {
             //create new random grid
             tcfg.createGrid();
             int moves = 0;
             //evaluate main tree for 80 steps of the dozer
-            while (!tcfg.board.gameDone()&& moves<100) {
+            while (!tcfg.board.gameDone()&&moves<100) {
                 int result = ((TartGene)get(0)).evaluate(tcfg, this);
-               
                 moves++;
                 tcfg.board.fire(result/10,result%10);
                 //else System.out.println("ERROR, result not 1, 2, or 3 but instead "+result);
@@ -91,8 +93,6 @@ public class TartGP extends GP {
         
         // write grid at each step for this genome
         TartVariables tcfg = (TartVariables)cfg;
-        TartGene gene = (TartGene)get(0);
-
         double totFit = 0;
         // run this genome on some number of test grids, printing the resulting grid at each step
         for (int j=0; j<tcfg.NumTestGrids; j++) {
