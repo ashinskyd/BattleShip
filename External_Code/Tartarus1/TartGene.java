@@ -49,32 +49,37 @@ public class TartGene extends GPGene {
         Random rand = new Random();
         int arg1, arg2, arg3, result;
         switch (node.value()) {
-        case Grid.EMPTY:
-            return 0;
-            
-        case Grid.MISS: 
-            return 1;
-            
-        case Grid.HIT: 
-            return 2;
+        case Grid.RAND:
+            return cfg.board.randomSquare();
         
-        case Grid.HV:
-        	return cfg.board.lastHotVertical();
+       // case Grid.HV:
+        	//return cfg.board.lastHotVertical();
          
-        case Grid.HH:
-        	return cfg.board.lastHotHorizontal();
+        //case Grid.HH:
+        	//return cfg.board.lastHotHorizontal();
         	
         case Grid.RE:
             return cfg.board.randomEmpty();
 
         case Grid.RH:
             return cfg.board.randomHot();
-           
+          
+        //case Grid.LH:
+        //	return cfg.board.lastHot();
+            
         case Grid.INC:
             return (( ( (TartGene)get(0) ).evaluate(cfg, gp) + 1) % 100+100)%100;
+            
+        case Grid.INC10:
+            return (( ( (TartGene)get(0) ).evaluate(cfg, gp) + 10) % 100+100)%100;
 
         case Grid.DEC:
             result = ( (TartGene)get(0) ).evaluate(cfg, gp) - 1;
+            result = (result%100 + 100)%100;
+            return result;
+            
+        case Grid.DEC10:
+            result = ( (TartGene)get(0) ).evaluate(cfg, gp) - 10;
             result = (result%100 + 100)%100;
             return result;
             

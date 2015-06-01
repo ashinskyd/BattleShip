@@ -79,7 +79,7 @@ public class battleBoard {
 	
 	public int lastHotHorizontal(){
 		if(!anyHits){
-			return randomEmpty();
+			return  randomSquare();
 		}else{
 			Random rand = new Random();
 			ArrayList<Integer> validDirs = new ArrayList<Integer>();
@@ -90,7 +90,7 @@ public class battleBoard {
 			validDirs.add(right);
 			while(!foundEmpty){
 				if(validDirs.size()==0){
-					return randomHot();
+					return randomSquare();
 				}else{
 					int direction = rand.nextInt(validDirs.size());
 					int location = validDirs.get(direction);
@@ -105,14 +105,14 @@ public class battleBoard {
 					}
 				}
 			}
-			return randomHot();
+			return  randomSquare();
 		}
 	}
 	
 	
 	public int lastHotVertical(){
 		if(!anyHits){
-			return randomEmpty();
+			return randomSquare();
 		}else{
 			Random rand = new Random();
 			ArrayList<Integer> validDirs = new ArrayList<Integer>();
@@ -123,7 +123,7 @@ public class battleBoard {
 			validDirs.add(down);
 			while(!foundEmpty){
 				if(validDirs.size()==0){
-					return randomEmpty();
+					return randomSquare();
 				}else{
 					int direction = rand.nextInt(validDirs.size());
 					int location = validDirs.get(direction);
@@ -138,21 +138,28 @@ public class battleBoard {
 					}
 				}
 			}
-			return randomEmpty();
+			return randomSquare();
+		}
+	}
+	
+	public int lastHot(){
+		if(!anyHits){
+			return randomSquare();
+		}else{
+			return lastHitIndex;
 		}
 	}
 	
 	
-	
 	public int randomHot(){
 		if(!anyHits){
-			return randomEmpty();
+			return randomSquare();
 		}
 		else{
 			Random rand = new Random();
 			if(uncheckedHits.size()==0){
 				anyHits = false;
-				return randomEmpty();
+				return randomSquare();
 			}
 			int randhitIndex = rand.nextInt(uncheckedHits.size());
 			int randhit = uncheckedHits.get(randhitIndex);
@@ -185,39 +192,13 @@ public class battleBoard {
 					}
 				}
 			}
-			return randomEmpty();
+			return randomSquare();
 		}
-			/*
-			
-			boolean validrand = false;
-			int newloc = 0;
-			int x = 0;
-			while(!validrand){
-				
-				System.out.println("size: "+uncheckedHits.size());
-				
-				int randhit = rand.nextInt(uncheckedHits.size());
-				if (uncheckedDirs.get(randhit).size() == 0){
-					uncheckedHits.remove(randhit);
-					uncheckedDirs.remove(randhit);
-				}if (uncheckedHits.size() == 0){
-					anyHits =false;
-					return randomEmpty();
-				}
-				int dir = rand.nextInt(uncheckedDirs.get(randhit).size());
-				newloc = randhit + (int)uncheckedDirs.get(randhit).get(dir);
-				if(newloc >= 0 && newloc <= 99){
-					if (board[newloc%10][newloc/10] == Square.EMPTY || board[newloc%10][newloc/10] == Square.SHIP){
-						validrand = true;
-					}
-					else{
-						System.out.println("HERE");
-						uncheckedDirs.get(randhit).remove(dir);
-					}
-				}
-
-			}
-		}*/
+	}
+	
+	public int randomSquare(){
+		Random rand = new Random();
+		return rand.nextInt(100);
 	}
 	
 	public void initializeBoard(){
