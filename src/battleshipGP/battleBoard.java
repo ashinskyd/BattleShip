@@ -7,6 +7,9 @@ import java.util.Random;
 
 public class battleBoard {
 	
+	//Enum for each location in the board
+	//Miss=fired but misses
+	//empty means no ship and haven't checked yet
 	public enum Square {
 		HIT, MISS, EMPTY, SHIP
 	}
@@ -20,6 +23,8 @@ public class battleBoard {
 	private boolean anyHits=false;
 	private int lastHitIndex;
 	
+	
+	//Constructor sets all the spaces on the given board size to empty
 	public battleBoard(int size) {
 		uncheckedHits = new ArrayList<Integer>();
 		uncheckedDirs = new ArrayList<ArrayList>();
@@ -32,6 +37,10 @@ public class battleBoard {
 		}
 	}
 	
+	
+	//Based on the length of a ship, randomly select a 
+	//valid arrangement of squares on the board to place that specific ship, 
+	//and set those squares to "Ship"
 	public void setShip(int length) {
 		Random rand = new Random();
 		boolean invalid = true;
@@ -62,6 +71,9 @@ public class battleBoard {
 		}
 	}
 	
+	
+	//Function searches the board for a random square which has
+	//not been fired on yet. Returns that index.
 	public int randomEmpty(){
 		Random rand = new Random();
 		int locationx = rand.nextInt(size);
@@ -77,6 +89,9 @@ public class battleBoard {
 		return locationx*10+locationy;
 	}
 	
+	//If there was a previous hit, return either (randomly)
+	//the square immiedietly to the right or left of the last hit
+	//If there was no previous hit or there is not  a valid square, return randomSquare()
 	public int lastHotHorizontal(){
 		if(!anyHits){
 			return  randomSquare();
@@ -109,7 +124,9 @@ public class battleBoard {
 		}
 	}
 	
-	
+	//If there was a previous hit, return either (randomly)
+	//the square immiedietly up or down of the last hit.
+	//If there was no previous hit or there is not  a valid square, return randomSquare()
 	public int lastHotVertical(){
 		if(!anyHits){
 			return randomSquare();
@@ -142,6 +159,8 @@ public class battleBoard {
 		}
 	}
 	
+	//Return the last square which was a Hit
+	//Otherwise, return a randomsquare
 	public int lastHot(){
 		if(!anyHits){
 			return randomSquare();
@@ -150,7 +169,8 @@ public class battleBoard {
 		}
 	}
 	
-	
+	//Return randomly any square which was a hit
+	//If no hits, return a randomsquare
 	public int randomHot(){
 		if(!anyHits){
 			return randomSquare();
@@ -181,7 +201,6 @@ public class battleBoard {
 					int direction = rand.nextInt(validDirs.size());
 					int location = validDirs.get(direction);
 					if(location>=0 && location<=99){
-						//System.out.println("DIRECTION: "+location);
 						if(board[location/10][location%10]!=Square.HIT &&  board[location/10][location%10]!=Square.MISS){
 							return location;
 						}else{
@@ -196,11 +215,13 @@ public class battleBoard {
 		}
 	}
 	
+	//Returns a random square on the board
 	public int randomSquare(){
 		Random rand = new Random();
 		return rand.nextInt(100);
 	}
 	
+	//Sets the board up with the ships present in a standard battleship game
 	public void initializeBoard(){
 		this.setShip(5);
 		this.setShip(4);
@@ -209,6 +230,7 @@ public class battleBoard {
 		this.setShip(2);
 	}
 	
+	//printing function to display boards
 	public void printBoard(){
 		System.out.println(" ======================================= ");
 		for(int i=0;i<board.length;i++){
@@ -227,10 +249,14 @@ public class battleBoard {
 		}
 	}
 	
+	//Fitness function is just the number of attempts to fire
+	//Function returns this fitness
 	public int calcFitness(){
 		return numMoves;
 	}
 	
+	//increases the fitness by 1 and attempts to fire on a square.
+	//If there's a ship, set that square to a hit, otherwise, set to a miss
 	public int fire(int xloc, int yloc){
 		numMoves++;
 		if(board[xloc][yloc]==Square.EMPTY){
@@ -257,6 +283,7 @@ public class battleBoard {
 		return 0;
 	}
 	
+	//Just returns true or false if all ships are shrunk.
 	public boolean gameDone(){
 		boolean done = true;
 		for(int i=0;i<board.length;i++){

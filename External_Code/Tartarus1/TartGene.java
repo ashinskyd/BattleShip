@@ -49,27 +49,37 @@ public class TartGene extends GPGene {
         Random rand = new Random();
         int arg1, arg2, arg3, result;
         switch (node.value()) {
+        
+       //RandomSquare is a terminal described in battleBoard.java
         case Grid.RAND:
             return cfg.board.randomSquare();
         
-       // case Grid.HV:
-        	//return cfg.board.lastHotVertical();
-         
-        //case Grid.HH:
-        	//return cfg.board.lastHotHorizontal();
-        	
+         //LastHotVertical is a terminal described in battleBoard.java
+        case Grid.HV: 
+        	return cfg.board.lastHotVertical();
+        
+        //horizontalHot is a terminal described in battleBoard.java
+        case Grid.HH:
+        	return cfg.board.lastHotHorizontal();
+       
+        //RandomEmpty is a terminal described in battleBoard.java	
         case Grid.RE:
             return cfg.board.randomEmpty();
 
+        //RandomHot is a terminal described in battleBoard.java
         case Grid.RH:
             return cfg.board.randomHot();
           
-        //case Grid.LH:
-        //	return cfg.board.lastHot();
+        //LastHot is a terminal described in battleBoard.java
+        case Grid.LH:
+        	return cfg.board.lastHot();
             
         case Grid.INC:
             return (( ( (TartGene)get(0) ).evaluate(cfg, gp) + 1) % 100+100)%100;
+          
             
+            //INC10 is a function which increments the value of its child by 10
+            //This is equivelent to choosing a square directly below a chosen square.    
         case Grid.INC10:
             return (( ( (TartGene)get(0) ).evaluate(cfg, gp) + 10) % 100+100)%100;
 
@@ -77,7 +87,10 @@ public class TartGene extends GPGene {
             result = ( (TartGene)get(0) ).evaluate(cfg, gp) - 1;
             result = (result%100 + 100)%100;
             return result;
+        
             
+        //DEC10 is a function which decrements the value of its child by 10
+        //This is equivelent to choosing a square directly above a chosen square.
         case Grid.DEC10:
             result = ( (TartGene)get(0) ).evaluate(cfg, gp) - 10;
             result = (result%100 + 100)%100;
