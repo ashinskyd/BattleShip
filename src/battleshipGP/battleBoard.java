@@ -169,7 +169,7 @@ public class battleBoard {
 		}
 	}
 	
-	//Return randomly any square which was a hit
+	//Return any square adjescent to a randomly selected square which was a hit previously
 	//If no hits, return a randomsquare
 	public int randomHot(){
 		if(!anyHits){
